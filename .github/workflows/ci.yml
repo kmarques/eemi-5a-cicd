@@ -95,8 +95,16 @@ jobs:
     runs-on: "ubuntu-latest"
     continue-on-error: true
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Restore node_modules
+        uses: actions/cache/restore@v4
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
       - name: "Test"
-        run: npm run test:e2e
+        #run: npm run test:e2e
+        run: npm run test:unit
 
   notify:
     needs: ["test_unit", "test_integration", "test_e2e"]

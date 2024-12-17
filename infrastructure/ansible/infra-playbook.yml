@@ -1,0 +1,24 @@
+---
+- name: "Install infrastructure"
+  hosts: localhost
+
+  vars_files:
+    - vars/config.yml
+
+  tasks:
+    - name: "Hello world"
+      ansible.builtin.debug:
+        msg: "Hello world"
+    - name: "Update repositories cache"
+      ansible.builtin.command:
+        cmd: apk update
+    - name: "Install nodejs"
+      ansible.builtin.command:
+        cmd: apk add nodejs
+    - name: "Install nginx"
+      ansible.builtin.command:
+        cmd: apk add nginx
+    - name: "Install nginx vhost"
+      ansible.builtin.template:
+        src: ./templates/default.conf.j2
+        dest: /etc/nginx/http.d/default.conf

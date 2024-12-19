@@ -1,13 +1,18 @@
 services:
   node_manager:
     image: alpine/ansible
-    working_dir: /app
+    working_dir: /app/infrastructure/ansible
     volumes:
       - .:/app
       - ./infrastructure/ssh_keys:/root/.ssh:rw
 
   target:
-    image: lscr.io/linuxserver/openssh-server:latest
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+      args:
+        - USERNAME=deployer
+        - PASSWORD=deployer
     environment:
       - PASSWORD_ACCESS=false
       - PUBLIC_KEY_FILE=/root/.ssh/authorized_keys

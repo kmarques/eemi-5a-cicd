@@ -4,7 +4,7 @@ ARG USERNAME
 ARG PASSWORD
 
 # Install the necessary packages for openssh-server
-RUN apt-get update && apt-get install -y openssh-server sudo
+RUN apt-get update -y && apt-get install -y openssh-server sudo
 
 # Create the necessary directories for sshd
 RUN mkdir /var/run/sshd
@@ -31,9 +31,6 @@ RUN echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Set the default shell for the new user
 RUN chsh -s /bin/bash $USERNAME
-
-# Set the default working directory for the new user
-WORKDIR /home/$USERNAME
 
 EXPOSE 22
 

@@ -9,7 +9,7 @@ server {
     error_log /var/log/nginx/{{ full_hostname }}.error.log;
     
     location / {
-        # Proxy_pass vers le serveur Node.js/Express
+        # Proxy_pass vers le serveur NextJS
         proxy_pass http://127.0.0.1:{{ node_port }}; # Changez le port si nécessaire
         
         # Paramètres recommandés pour le proxy
@@ -19,4 +19,4 @@ server {
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
     }
-} 
+}

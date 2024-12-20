@@ -1,3 +1,4 @@
 http_port: 80
 full_hostname: "example.com"
 node_port: 3000
+DB_NAME: "example_db"

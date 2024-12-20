@@ -1,0 +1,23 @@
+---
+- name: "Install postgresql"
+  ansible.builtin.apt:
+    update_cache: true
+    name: postgresql
+  notify: "Start-postgresql"
+
+- name: "Create database"
+  become: true
+  become_user: postgres
+  ansible.builtin.shell:
+    cmd: "psql -c 'CREATE DATABASE {{ DB_NAME }};'"
+  register: database_create
+  changed_when: database_create.rc == 0
+  # check if the database already exists
+  failed_when: database_create.rc != 0 and "already exists" not in database_create.stderr
+
+- name: "Install PostgreSQL extensions - pg_uuidv7 from tar"
+  ansible.builtin.shell: |
+    echo "Install extensions"
+  when: database_create.changed == true
+  changed_when: true
+  notify: "Restart-postgresql"
